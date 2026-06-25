@@ -1,0 +1,50 @@
+---
+interface ImageItem {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  images: ImageItem[];
+  aspectRatio?: string;
+  indicator?: string;
+}
+
+const { images = [], aspectRatio = "16/9" } = Astro.props;
+
+// Generate unique id for the carousel instance to avoid ID clashes
+const carouselId = `carousel-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div class="my-6">
+  <!-- Carousel wrapper -->
+  <div class="relative group">
+    <div class="carousel w-full rounded-2xl border border-base-300/60 shadow-lg" style={`aspect-ratio: ${aspectRatio.replace(/\s+/g, '')};`}>
+      {images.map((img, index) => {
+        const prevIndex = index === 0 ? images.length - 1 : index - 1;
+        const nextIndex = index === images.length - 1 ? 0 : index + 1;
+        return (
+          <div id={`${carouselId}-slide-${index}`} class="carousel-item relative w-full h-full">
+            <img src={img.src} alt={img.alt} class="w-full h-full object-cover" />
+            
+            {images.length > 1 && (
+              <div class="absolute flex justify-between transform -translate-y-1/2 left-4 right-4 top-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <a href={`#${carouselId}-slide-${prevIndex}`} class="btn btn-circle btn-primary btn-sm border-0 bg-primary/70 text-primary-content hover:bg-primary shadow">❮</a>
+                <a href={`#${carouselId}-slide-${nextIndex}`} class="btn btn-circle btn-primary btn-sm border-0 bg-primary/70 text-primary-content hover:bg-primary shadow">❯</a>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- Navigation Indicators -->
+    {images.length > 1 && (
+      <div class="flex justify-center w-full py-2 gap-2 mt-2">
+        {images.map((_, index) => (
+          <a href={`#${carouselId}-slide-${index}`} class="w-2.5 h-2.5 rounded-full bg-base-300 hover:bg-primary transition-colors focus:bg-primary" aria-label={`Go to slide ${index + 1}`}></a>
+        ))}
+      </div>
+    )}
+  </div>
+</div>

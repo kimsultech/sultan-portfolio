@@ -1,0 +1,16 @@
+---
+// Redirect page to preferred language or default /en/
+---
+<meta http-equiv="refresh" content="0;url=/en/" />
+<script is:inline>
+  try {
+    const lang = navigator.language || navigator.userLanguage;
+    if (lang && lang.toLowerCase().startsWith('id')) {
+      window.location.pathname = '/id/';
+    } else {
+      window.location.pathname = '/en/';
+    }
+  } catch (e) {
+    window.location.pathname = '/en/';
+  }
+</script>

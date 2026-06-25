@@ -1,0 +1,71 @@
+---
+title: "FanBias | K-Pop Idol & Drama Encyclopedia"
+publishedAt: "2026-05-12"
+summary: "The ultimate K-Pop idol, group, and drama encyclopedia. Save your bias list and connect with other fans."
+images:
+  - "/images/projects/fanbias/homepage.png"
+team:
+  - name: "Sultan A.M"
+    role: "Full Stack Developer"
+    avatar: "/images/avatar.jpeg"
+    linkedIn: "https://www.linkedin.com"
+---
+
+## Overview
+
+FanBias is an all-in-one platform designed for K-Pop fans to explore a comprehensive encyclopedia of idols, groups, and dramas. The platform allows fans to track their favorite artists, participate in community polls, and connect with fellow fans in a dedicated hub. The project originated from a simple idea by a multi-fandom fan in 2020 to create a "bias" list application. At that time, it remained in the prototype stage as my primary focus was on my university studies, and technical limitations made development quite challenging. However, now with AI assistance, that long-held dream has finally been realized as a fully functional platform.
+
+![FanBias Prototype 2020](/images/projects/fanbias/prototype.jpg)
+
+**Status: In Development (Alpha Version)**
+
+Live site: [https://fanbias.site](https://fanbias.site)
+
+## Key Features
+
+- **Artist Wiki**: Detailed profiles, facts, and career history of K-Pop artists and groups.
+- **Fan Polls**: Interactive voting and polling system for the community to share their opinions.
+- **Community Chat**: Dedicated chat rooms for fans to connect and discuss their favorite topics.
+- **Bias Tracking**: A personalized system for fans to save and manage their "bias" list.
+- **Cinta System**: A virtual currency system ("Cinta") for community engagement.
+
+## Technical Stack
+
+The project is built with a modern and high-performance stack:
+
+- **Frontend**: **Astro 6.x** and **Tailwind CSS v4** for a lightning-fast and responsive user interface.
+- **Backend API**: **Go (Golang)** using **Gofiber (Fiber v2)** for high-performance request handling.
+- **Database**: **PostgreSQL** with **GORM** for robust data management.
+- **Real-time**: **WebSockets** for live community features and chat.
+- **Infrastructure**: **Pocketbase** for asset storage and **Redis** for efficient caching.
+
+## API Architecture
+
+The backend is built using Go, providing a high-concurrency API that handles everything from wiki data to real-time interactions. It follows a clean architecture pattern, ensuring scalability and maintainability as the platform grows. Go was chosen for its efficiency and lightweight performance, as the project is designed to run on a Mini Server with limited specifications (2GB RAM, arm64 architecture, and SSD storage via USB 2.0).
+
+## Preview
+
+<Carousel
+  aspectRatio="16 / 9"
+  indicator="thumbnail"
+  images={[
+    {
+      alt: 'FanBias Homepage',
+      src: '/images/projects/fanbias/homepage.png'
+    },
+    {
+      alt: 'FanBias Wiki Page',
+      src: '/images/projects/fanbias/wiki-page.png'
+    },
+    {
+      alt: 'FanBias Logo',
+      src: '/images/projects/fanbias/logo.png'
+    }
+  ]}
+/>
+
+---
+
+## Challenges and Learning
+
+Developing FanBias involved working with cutting-edge technologies like Tailwind CSS v4. Building a high-performance API in Go and managing real-time features with WebSockets provided significant experience in building scalable fullstack applications. Throughout the development process, I leveraged AI assistance to accelerate the implementation of complex logic and code optimization.

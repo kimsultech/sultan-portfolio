@@ -1,0 +1,126 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import ProjectCard from "../../../components/ProjectCard.astro";
+import { type Locale, useTranslations } from "../../../utils/i18n";
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: "en" } },
+    { params: { locale: "id" } },
+  ];
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = useTranslations(locale);
+
+// Fetch all projects for this locale
+const allProjects = await getCollection("projects");
+const projects = allProjects
+  .filter((project) => project.id.startsWith(locale + "/"))
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+
+// Define tags and categories mapping for each project slug
+const projectTagsMap: Record<string, string[]> = {
+  "dasukecimteng-web-laravel": ["Laravel", "MySQL", "Tailwind CSS", "MSME Development"],
+  "fanbias": ["Astro 6.x", "Go (Golang)", "Gofiber", "PostgreSQL", "WebSockets"],
+  "icore-disdukcapil-pangkep": ["Android Native (Java)", "ExpressJS", "MySQL", "Bootstrap"],
+  "nyari-doksli": ["Astro 5", "React 19", "PostgreSQL", "Prisma", "Redis", "TensorFlow JS"]
+};
+
+const projectCategoriesMap: Record<string, string[]> = {
+  "dasukecimteng-web-laravel": ["web", "laravel"],
+  "fanbias": ["web", "fullstack", "go"],
+  "icore-disdukcapil-pangkep": ["mobile", "android"],
+  "nyari-doksli": ["web", "fullstack", "astro"]
+};
+
+const filterTabs = [
+  { id: "all", label: "All Projects" },
+  { id: "web", label: "Web Development" },
+  { id: "mobile", label: "Mobile Apps" },
+  { id: "fullstack", label: "Full Stack" }
+];
+---
+
+<Layout locale={locale} title={t("work.title")} description={t("work.description", { name: "Sultan" })}>
+  <!-- Header Title -->
+  <section class="mb-10 text-center md:text-left max-w-5xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+      {t("work.title")}
+    </h1>
+    <p class="text-base-content/60 mt-2">
+      {t("work.description", { name: "Sultan Akmal Maulana" })}
+    </p>
+  </section>
+
+  <!-- Dynamic Filter Tabs -->
+  <div class="flex flex-wrap gap-2 mb-8 justify-center md:justify-start max-w-5xl mx-auto font-semibold">
+    {filterTabs.map((tab, idx) => (
+      <button 
+        class={`btn btn-sm rounded-xl px-4 text-xs h-9 min-h-0 ${idx === 0 ? "btn-primary" : "btn-outline border-base-300"}`} 
+        data-filter={tab.id}
+      >
+        {tab.label}
+      </button>
+    ))}
+  </div>
+
+  <!-- Projects Listing -->
+  <div class="grid grid-cols-1 gap-6 max-w-5xl mx-auto">
+    {projects.length > 0 ? (
+      projects.map(project => {
+        const slug = project.id.split("/")[1];
+        const tags = projectTagsMap[slug] || [];
+        const categories = projectCategoriesMap[slug] || [];
+        return (
+          <ProjectCard 
+            locale={locale}
+            title={project.data.title}
+            description={project.data.summary}
+            images={project.data.images}
+            team={project.data.team}
+            publishedAt={project.data.publishedAt}
+            href={`/${locale}/work/${slug}`}
+            tags={tags}
+            categories={categories}
+          />
+        );
+      })
+    ) : (
+      <div class="text-center py-16 bg-base-200 rounded-2xl border border-base-300">
+        <i class="fa-solid fa-folder-open text-4xl text-base-content/30 mb-3"></i>
+        <p class="text-base-content/60 font-medium">No projects found.</p>
+      </div>
+    )}
+  </div>
+
+  <!-- Filter Logic Script -->
+  <script is:inline>
+    const filterButtons = document.querySelectorAll("[data-filter]");
+    const projectCards = document.querySelectorAll("[data-project-card]");
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        // Toggle styling
+        filterButtons.forEach(b => {
+          b.classList.remove("btn-primary");
+          b.classList.add("btn-outline", "border-base-300");
+        });
+        btn.classList.remove("btn-outline", "border-base-300");
+        btn.classList.add("btn-primary");
+
+        // Filter cards
+        const filterVal = btn.getAttribute("data-filter");
+        projectCards.forEach(card => {
+          const categories = card.getAttribute("data-categories").split(" ");
+          if (filterVal === "all" || categories.includes(filterVal)) {
+            card.classList.remove("hidden");
+          } else {
+            card.classList.add("hidden");
+          }
+        });
+      });
+    });
+  </script>
+</Layout>

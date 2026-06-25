@@ -1,0 +1,191 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { type Locale, useTranslations } from "../../utils/i18n";
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: "en" } },
+    { params: { locale: "id" } },
+  ];
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = useTranslations(locale);
+
+// Fetch all projects for this locale
+const allProjects = await getCollection("projects");
+const projects = allProjects
+  .filter((project) => project.id.startsWith(locale + "/"))
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+
+const latestProject = projects.length > 0 ? projects[0] : null;
+const latestProjectSlug = latestProject ? latestProject.id.split("/")[1] : "";
+const latestProjectImage = latestProject && latestProject.data.images.length > 0 ? latestProject.data.images[0] : "/images/cover.png";
+
+const socialLinks = [
+  { name: "GitHub", url: "https://github.com/kimsultech", icon: "fa-brands fa-github", color: "hover:bg-neutral hover:text-neutral-content" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/kimsultech", icon: "fa-brands fa-linkedin", color: "hover:bg-info hover:text-info-content" },
+  { name: "Email", url: "mailto:ssxakmal@gmail.com", icon: "fa-solid fa-envelope", color: "hover:bg-primary hover:text-primary-content" }
+];
+---
+
+<Layout locale={locale}>
+  <!-- Bento Grid Container -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto py-4">
+    
+    <!-- 1. Hero Bio Card (Spans 2 columns) -->
+    <div class="md:col-span-2 p-8 md:p-10 bg-base-200 border border-base-300 rounded-3xl relative overflow-hidden flex flex-col justify-between group shadow-sm hover:shadow-md transition-shadow">
+      <!-- Glow decoration -->
+      <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-primary/10 blur-3xl group-hover:bg-primary/15 transition-colors duration-500"></div>
+      
+      <div class="space-y-4 relative z-10">
+        <div class="badge badge-primary font-bold px-3 py-1.5 h-auto rounded-lg">
+          {t("person.role")}
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
+          Hi, I'm <span class="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Sultan Akmal Maulana</span>
+        </h1>
+        <p class="text-base md:text-lg text-base-content/75 leading-relaxed max-w-xl">
+          {t("home.subline")}
+        </p>
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-3 relative z-10">
+        <a href={`/${locale}/about`} class="btn btn-primary rounded-xl px-6">
+          {t("about.title")}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+        <a href={`/${locale}/work`} class="btn btn-outline rounded-xl px-6">
+          {t("work.title")}
+        </a>
+      </div>
+    </div>
+
+    <!-- 2. Avatar Card (Spans 1 column) -->
+    <div class="md:col-span-1 p-6 bg-base-200 border border-base-300 rounded-3xl flex flex-col items-center justify-center text-center relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
+      <div class="relative mb-4">
+        <div class="w-28 h-28 md:w-32 md:h-32 rounded-2xl overflow-hidden border border-primary/20 relative shadow-inner">
+          <img 
+            src="/images/avatar.jpeg" 
+            alt="Sultan Akmal Maulana" 
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+      </div>
+      
+      <div class="space-y-1">
+        <h2 class="font-bold text-lg">Sultan A.M</h2>
+        <p class="text-xs text-base-content/60">Bandung, Indonesia 🇮🇩</p>
+      </div>
+      <p class="text-xs text-success font-semibold mt-2">Open for Freelance/Work</p>
+    </div>
+
+    <!-- 3. Stats & Info Card (Spans 1 column) -->
+    <div class="md:col-span-1 p-6 bg-base-200 border border-base-300 rounded-3xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+      <h3 class="text-[10px] tracking-wider uppercase font-bold text-base-content/50">Overview</h3>
+      
+      <div class="grid grid-cols-2 gap-4 my-4">
+        <div class="p-3 bg-base-100 rounded-2xl border border-base-300/40 text-center">
+          <p class="text-2xl font-black text-primary">2+</p>
+          <p class="text-[10px] uppercase font-bold text-base-content/50 tracking-wider">Years Freelance</p>
+        </div>
+        <div class="p-3 bg-base-100 rounded-2xl border border-base-300/40 text-center">
+          <p class="text-2xl font-black text-secondary">{projects.length}+</p>
+          <p class="text-[10px] uppercase font-bold text-base-content/50 tracking-wider">Total Projects</p>
+        </div>
+      </div>
+
+      <div class="text-xs text-base-content/60 border-t border-base-300/60 pt-3 flex justify-between items-center">
+        <span>Education</span>
+        <span class="font-semibold text-base-content">Politeknik TEDC Bandung</span>
+      </div>
+    </div>
+
+    <!-- 4. Latest Project Card (Spans 2 columns) -->
+    {latestProject && (
+      <div class="md:col-span-2 p-8 bg-base-200 border border-base-300 rounded-3xl flex flex-col md:flex-row justify-between gap-6 relative group overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex-1 flex flex-col justify-between min-h-[180px]">
+          <div>
+            <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md uppercase tracking-wider">
+              Latest Work
+            </span>
+            <h3 class="text-xl md:text-2xl font-black text-base-content mt-2 group-hover:text-primary transition-colors">
+              {latestProject.data.title}
+            </h3>
+            <p class="text-xs text-base-content/70 mt-2 line-clamp-3 leading-relaxed">
+              {latestProject.data.summary}
+            </p>
+          </div>
+          
+          <div class="mt-4">
+            <a href={`/${locale}/work/${latestProjectSlug}`} class="btn btn-primary btn-sm rounded-lg px-4 gap-2">
+              Case Study
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Mockup/Image overlay representation -->
+        <div class="flex-1 aspect-[16/10] md:aspect-auto rounded-2xl overflow-hidden border border-base-300 relative bg-base-300 min-h-[140px]">
+          <img 
+            src={latestProjectImage} 
+            alt={latestProject.data.title} 
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+          />
+        </div>
+      </div>
+    )}
+
+    <!-- 5. Social Connect Card (Spans 1 column) -->
+    <div class="md:col-span-1 p-6 bg-base-200 border border-base-300 rounded-3xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+      <h3 class="text-[10px] tracking-wider uppercase font-bold text-base-content/50">Social Links</h3>
+      
+      <div class="flex flex-col gap-2 my-4">
+        {socialLinks.map(link => (
+          <a 
+            href={link.url} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class={`btn btn-outline border-base-300 rounded-xl justify-start gap-3 h-11 min-h-0 text-sm font-medium ${link.color} transition-all duration-300`}
+          >
+            <i class={`${link.icon} text-lg w-5`}></i>
+            <span>{link.name}</span>
+          </a>
+        ))}
+      </div>
+      
+      <p class="text-[10px] text-base-content/50 text-center">
+        Feel free to reach out via email or message.
+      </p>
+    </div>
+
+    <!-- 6. Skills Summary Bento Box (Spans 2 columns) -->
+    <div class="md:col-span-2 p-6 bg-base-200 border border-base-300 rounded-3xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+      <div class="flex justify-between items-center">
+        <h3 class="text-[10px] tracking-wider uppercase font-bold text-base-content/50">Core Tech Stack</h3>
+        <a href={`/${locale}/about`} class="text-xs text-primary font-bold hover:underline">View Experience</a>
+      </div>
+      
+      <div class="flex flex-wrap gap-2.5 my-4">
+        <span class="badge badge-lg border-base-300/80 rounded-xl bg-base-100 font-semibold text-xs py-3 px-3.5"><i class="fa-brands fa-laravel text-primary mr-1.5"></i>Laravel</span>
+        <span class="badge badge-lg border-base-300/80 rounded-xl bg-base-100 font-semibold text-xs py-3 px-3.5"><i class="fa-brands fa-node-js text-success mr-1.5"></i>Node.js</span>
+        <span class="badge badge-lg border-base-300/80 rounded-xl bg-base-100 font-semibold text-xs py-3 px-3.5"><i class="fa-solid fa-cube text-info mr-1.5"></i>ExpressJS</span>
+        <span class="badge badge-lg border-base-300/80 rounded-xl bg-base-100 font-semibold text-xs py-3 px-3.5"><i class="fa-brands fa-android text-success mr-1.5"></i>Android (Java)</span>
+        <span class="badge badge-lg border-base-300/80 rounded-xl bg-base-100 font-semibold text-xs py-3 px-3.5"><i class="fa-brands fa-golang text-info mr-1.5"></i>Go (Golang)</span>
+        <span class="badge badge-lg border-base-300/80 rounded-xl bg-base-100 font-semibold text-xs py-3 px-3.5"><i class="fa-brands fa-js text-warning mr-1.5"></i>TypeScript</span>
+        <span class="badge badge-lg border-base-300/80 rounded-xl bg-base-100 font-semibold text-xs py-3 px-3.5"><i class="fa-solid fa-rocket text-primary mr-1.5"></i>Astro JS</span>
+        <span class="badge badge-lg border-base-300/80 rounded-xl bg-base-100 font-semibold text-xs py-3 px-3.5"><i class="fa-solid fa-database text-warning mr-1.5"></i>MySQL / Postgres</span>
+      </div>
+
+      <div class="text-[10px] text-base-content/50 border-t border-base-300/60 pt-3">
+        And standard industry tools: Git, Ubuntu, VS Code, Android Studio.
+      </div>
+    </div>
+    
+  </div>
+</Layout>

@@ -1,0 +1,77 @@
+{
+    "person": {
+        "role": "FullStack Developer"
+    },
+    "newsletter": {
+        "title": "Subscribe to {firstName}'s Newsletter",
+        "description": "I occasionally write about design, technology, and share thoughts on the intersection of creativity and engineering",
+        "button": "Sign up"
+    },
+    "home": {
+        "label": "Home",
+        "title": "My Portfolio",
+        "description": "Portfolio website showcasing my work as a {role}",
+        "headline": "FullStack Developer",
+        "subline": "I am Sultan, a Freelancer and just graduated from Informatics Engineering in December 2024, I started Freelancing in 2021 in Android Mobile Application and Web development."
+    },
+    "about": {
+        "label": "About",
+        "title": "About me",
+        "description": "Meet {name}, {role} from {location}",
+        "intro": {
+            "title": "Introduction",
+            "description": "Sultan is a Fullstack Developer based in Bandung, with experience developing Mobile (Android) and Web (ExpressJS, Laravel) Applications."
+        },
+        "work": {
+            "title": "Work Experience",
+            "experiences": {
+                "Freelance": {
+                    "timeframe": "2021 - Present",
+                    "role": "FullStack Developer",
+                    "achievements": "Developing ICore Pangkep Application Based on Android (Java) with API and Admin Panel using ExpressJS..."
+                }
+            }
+        },
+        "studies": {
+            "title": "Studies",
+            "institutions": {
+                "Politeknik TEDC Bandung": {
+                    "description": "Informatics Engineering.",
+                    "timeframe": "2020 - 2024"
+                }
+            }
+        },
+        "technical": {
+            "title": "Technical skills",
+            "skills": {
+                "Web": {
+                    "description": "Able to create websites using the Laravel Framework and Node JS, Express JS"
+                },
+                "Mobile": {
+                    "description": "Able to create Native Android Mobile Applications."
+                },
+                "TechStack": {
+                    "description": "-"
+                }
+            }
+        }
+    },
+    "blog": {
+        "label": "Blog",
+        "title": "Writing about design and tech...",
+        "description": "Read what {name} has been up to recently"
+    },
+    "work": {
+        "label": "Work",
+        "title": "My projects",
+        "description": "Application and dev projects by {name}"
+    },
+    "gallery": {
+        "label": "Gallery",
+        "title": "My photo gallery",
+        "description": "A photo collection by {name}"
+    },
+    "projectCard": {
+        "label": "Read Case Study"
+    }
+}

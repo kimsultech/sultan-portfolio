@@ -1,0 +1,97 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import Carousel from "../../../components/Carousel.astro";
+import { type Locale, useTranslations } from "../../../utils/i18n";
+
+export async function getStaticPaths() {
+  const allProjects = await getCollection("projects");
+  return allProjects.map((project) => {
+    // project.id is in format: en/dasukecimteng-web-laravel.mdx
+    const [locale, slugWithExt] = project.id.split("/");
+    const slug = slugWithExt.replace(/\.[^/.]+$/, ""); // strip extension
+    return {
+      params: { locale, slug },
+      props: { project }
+    };
+  });
+}
+
+const { locale, slug } = Astro.params as { locale: Locale; slug: string };
+const { project } = Astro.props;
+const t = useTranslations(locale);
+
+// Render the Markdown/MDX content
+const { Content } = await render(project);
+
+// Format date
+const formatDate = (dateStr: string) => {
+  try {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString(locale === "en" ? "en-US" : "id-ID", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+  } catch (e) {
+    return dateStr;
+  }
+};
+---
+
+<Layout locale={locale} title={project.data.title} description={project.data.summary}>
+  <div class="max-w-3xl mx-auto space-y-8">
+    <!-- Back Button -->
+    <div>
+      <a href={`/${locale}/work`} class="btn btn-ghost hover:bg-base-200 gap-2 rounded-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        Back to projects
+      </a>
+    </div>
+
+    <!-- Title and Metadata -->
+    <header class="space-y-4">
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
+        {project.data.title}
+      </h1>
+      
+      <div class="flex flex-wrap items-center gap-6 text-sm text-base-content/65 border-y border-base-300 py-3">
+        <!-- Date -->
+        <span class="flex items-center gap-2">
+          <i class="fa-regular fa-calendar"></i>
+          {formatDate(project.data.publishedAt)}
+        </span>
+
+        <!-- Team -->
+        {project.data.team && project.data.team.length > 0 && (
+          <span class="flex items-center gap-2">
+            <i class="fa-solid fa-users"></i>
+            {project.data.team.map((member, index) => (
+              <span>
+                {member.name} ({member.role}){index < project.data.team!.length - 1 ? ", " : ""}
+              </span>
+            ))}
+          </span>
+        )}
+      </div>
+    </header>
+
+    <!-- Main Project Image -->
+    {project.data.images && project.data.images.length > 0 && (
+      <div class="w-full aspect-[16/9] rounded-2xl overflow-hidden border border-base-300/80 shadow-lg">
+        <img 
+          src={project.data.images[0]} 
+          alt={project.data.title} 
+          class="w-full h-full object-cover" 
+        />
+      </div>
+    )}
+
+    <!-- MDX Article Content -->
+    <article class="prose max-w-none leading-relaxed text-base-content/85">
+      <Content components={{ Carousel }} />
+    </article>
+  </div>
+</Layout>

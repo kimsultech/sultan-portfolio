@@ -1,0 +1,68 @@
+---
+title: "NyariDoksli | Find Original Documents"
+publishedAt: "2026-02-22"
+summary: "A search platform for original documents (Doksli) from overlaid or edited images."
+images:
+  - "/images/projects/nyari-doksli/homepage.png"
+team:
+  - name: "Sultan A.M"
+    role: "Full Stack Developer"
+    avatar: "/images/avatar.jpeg"
+    linkedIn: "https://www.linkedin.com"
+---
+
+## Overview
+
+NyariDoksli is an innovative platform that allows users to find the original source of an image or document that may have been modified or overlaid with other elements. It serves as a community-driven repository for "Doksli" (Dokumen Asli/Original Documents).
+
+Live site: [https://nyari-doksli.online](https://nyari-doksli.online) (Active until 02/20/2027)<br />
+GitHub: [https://github.com/kimsultech/nyari-doksli](https://github.com/kimsultech/nyari-doksli)
+
+## Key Features
+
+- **Image Scanning**: Scan modified images to find their original source in the database.
+- **Doksli Upload**: Community-driven contributions of original document templates and images.
+- **Voting System**: A verification system where the community can vote on the authenticity of uploaded documents.
+- **User Dashboard**: Manage uploads, profile settings, and track community contributions.
+
+## Technical Stack
+
+The project leverages a modern and robust stack for high-performance image processing and data management:
+
+- **Frontend**: **Astro 5** with **React 19** and **Tailwind CSS 4** for a cutting-edge and responsive UI.
+- **ORM & Database**: **Prisma** with **PostgreSQL** for efficient and reliable data handling.
+- **Rate Limiting & Caching**: **Redis** for request rate limiting and fast session management.
+- **Image Processing**: **Sharp** for generating thumbnails and handling image transformations.
+- **Machine Learning**: **TensorFlow JS** on the client-side for image scanning and vector data extraction, ensuring no server-side overhead.
+- **Authentication**: **Better Auth** for secure user management and session handling.
+
+## System Architecture
+
+NyariDoksli is designed with a modern-monolithic approach using Astro as its core. It leverages client-side processing with **TensorFlow JS** to handle complex image analysis, ensuring the server remains lightweight. It integrates seamlessly with Prisma for database interactions and uses Redis for request rate limiting to maintain server security.
+
+## Preview
+
+<Carousel
+  aspectRatio="16 / 9"
+  indicator="thumbnail"
+  images={[
+    {
+      alt: 'NyariDoksli Homepage',
+      src: '/images/projects/nyari-doksli/homepage.png'
+    },
+    {
+      alt: 'Scanning Feature',
+      src: '/images/projects/nyari-doksli/scan.png'
+    },
+    {
+      alt: 'Search Results',
+      src: '/images/projects/nyari-doksli/result.png'
+    }
+  ]}
+/>
+
+---
+
+## Challenges and Learning
+
+Building NyariDoksli required a deep understanding of image metadata and efficient search algorithms. Implementing a community-based verification system through voting helped in learning about complex state management and database consistency. Throughout the development process, I leveraged AI assistance to optimize image processing logic and refine the user experience.

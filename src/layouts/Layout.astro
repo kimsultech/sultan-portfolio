@@ -1,0 +1,399 @@
+---
+import "../styles/global.css";
+import { type Locale, useTranslations } from "../utils/i18n";
+
+interface Props {
+  title?: string;
+  description?: string;
+  locale: Locale;
+}
+
+const { locale = "en", title, description } = Astro.props;
+const t = useTranslations(locale);
+
+const currentUrl = Astro.url.pathname;
+const getSwitchLanguageUrl = (targetLocale: Locale) => {
+  // If path is "/" or empty, redirect to targetLocale
+  if (currentUrl === "/" || currentUrl === "") {
+    return `/${targetLocale}/`;
+  }
+  // Replace the first locale segment (e.g. /en/about -> /id/about)
+  const segments = currentUrl.split("/");
+  if (segments[1] === "en" || segments[1] === "id") {
+    segments[1] = targetLocale;
+  } else {
+    // If there is no locale in path, prepend it
+    return `/${targetLocale}${currentUrl}`;
+  }
+  return segments.join("/");
+};
+
+const defaultTitle = t("home.title");
+const defaultDescription = t("home.description", { role: t("person.role") });
+
+const pageTitle = title ? `${title} | Sultan` : defaultTitle;
+const pageDescription = description || defaultDescription;
+
+const socialLinks = [
+  {
+    name: "GitHub",
+    url: "https://github.com/kimsultech",
+    icon: "fa-brands fa-github",
+  },
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/in/kimsultech",
+    icon: "fa-brands fa-linkedin",
+  },
+  {
+    name: "Email",
+    url: "mailto:ssxakmal@gmail.com",
+    icon: "fa-solid fa-envelope",
+  },
+];
+---
+
+<!doctype html>
+<html lang={locale} data-theme="dark" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content="/images/cover.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content={pageTitle} />
+    <meta property="twitter:description" content={pageDescription} />
+    <meta property="twitter:image" content="/images/cover.png" />
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Theme Inline Script to avoid FOUC -->
+    <script is:inline>
+      const getTheme = () => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
+
+      const theme = getTheme();
+      document.documentElement.setAttribute("data-theme", theme);
+    </script>
+  </head>
+  <body
+    class="font-['Plus_Jakarta_Sans'] bg-base-100 text-base-content min-h-screen flex flex-col transition-colors duration-300"
+  >
+    <!-- Navbar -->
+    <header
+      class="sticky top-0 z-50 backdrop-blur-md bg-base-100/80 border-b border-base-200"
+    >
+      <div class="navbar max-w-5xl mx-auto px-4 md:px-8">
+        <div class="navbar-start">
+          <a
+            href={`/${locale}/`}
+            class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+          >
+            sultan.my.id
+          </a>
+        </div>
+
+        <div class="navbar-center hidden sm:flex">
+          <ul class="menu menu-horizontal px-1 gap-2 font-medium">
+            <li>
+              <a
+                href={`/${locale}/`}
+                class={`rounded-lg py-2 px-4 hover:bg-base-200 transition-colors ${currentUrl === `/${locale}/` || currentUrl === `/${locale}` ? "bg-base-200 text-primary" : ""}`}
+              >
+                {t("home.label")}
+              </a>
+            </li>
+            <li>
+              <a
+                href={`/${locale}/about`}
+                class={`rounded-lg py-2 px-4 hover:bg-base-200 transition-colors ${currentUrl.includes("/about") ? "bg-base-200 text-primary" : ""}`}
+              >
+                {t("about.label")}
+              </a>
+            </li>
+            <li>
+              <a
+                href={`/${locale}/work`}
+                class={`rounded-lg py-2 px-4 hover:bg-base-200 transition-colors ${currentUrl.includes("/work") ? "bg-base-200 text-primary" : ""}`}
+              >
+                {t("work.label")}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="navbar-end gap-3">
+          <!-- Language Switcher -->
+          <div
+            class="join border border-base-300 rounded-xl overflow-hidden bg-base-100"
+          >
+            <a
+              href={getSwitchLanguageUrl("en")}
+              class={`btn btn-xs join-item border-0 font-bold px-3 py-1.5 h-auto min-h-0 ${locale === "en" ? "btn-primary" : "btn-ghost text-base-content/60"}`}
+            >
+              EN
+            </a>
+            <a
+              href={getSwitchLanguageUrl("id")}
+              class={`btn btn-xs join-item border-0 font-bold px-3 py-1.5 h-auto min-h-0 ${locale === "id" ? "btn-primary" : "btn-ghost text-base-content/60"}`}
+            >
+              ID
+            </a>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button
+            id="theme-toggle"
+            class="btn btn-ghost btn-circle btn-sm"
+            aria-label="Toggle Theme"
+          >
+            <!-- Sun icon -->
+            <svg
+              id="theme-toggle-light-icon"
+              class="hidden w-5 h-5 fill-current"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 2.243a1 1 0 01.07 1.343l-.07.072-1.414 1.414a1 1 0 01-1.487-1.343l.073-.07 1.414-1.415a1 1 0 011.414 0zm3.243 4.757a1 1 0 010 2h-1a1 1 0 110-2h1zm-1.829 4.829a1 1 0 011.343.07l.072.071 1.414 1.414a1 1 0 01-1.343 1.487l-.07-.072-1.415-1.414a1 1 0 010-1.414zm-4.757 3.243a1 1 0 012 0v1a1 1 0 11-2 0v-1zm-4.829-1.829a1 1 0 01.07 1.343l-.07.072-1.414 1.414a1 1 0 01-1.487-1.343l.073-.07 1.414-1.415a1 1 0 011.414 0zM2 10a1 1 0 011-1h1a1 1 0 110 2H3a1 1 0 01-1-1zm2.243-4a1 1 0 011.343-.07l.072.07 1.414 1.415a1 1 0 01-1.343 1.487l-.07-.073-1.414-1.414a1 1 0 010-1.414zM10 5a5 5 0 100 10 5 5 0 000-10z"
+              ></path>
+            </svg>
+            <!-- Moon icon -->
+            <svg
+              id="theme-toggle-dark-icon"
+              class="hidden w-5 h-5 fill-current"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+              ></path>
+            </svg>
+          </button>
+
+          <!-- Mobile Menu Drawer (simple collapse or dropdown) -->
+          <div class="dropdown dropdown-end sm:hidden">
+            <label tabindex="0" class="btn btn-ghost btn-circle btn-sm">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h7"></path>
+              </svg>
+            </label>
+            <ul
+              tabindex="0"
+              class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl bg-base-200 rounded-box w-52 gap-1 border border-base-300"
+            >
+              <li>
+                <a
+                  href={`/${locale}/`}
+                  class={currentUrl === `/${locale}/` ||
+                  currentUrl === `/${locale}`
+                    ? "active"
+                    : ""}
+                >
+                  {t("home.label")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`/${locale}/about`}
+                  class={currentUrl.includes("/about") ? "active" : ""}
+                >
+                  {t("about.label")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`/${locale}/work`}
+                  class={currentUrl.includes("/work") ? "active" : ""}
+                >
+                  {t("work.label")}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 md:px-8 py-8 md:py-12">
+      <slot />
+    </main>
+
+    <!-- Global Image Lightbox Modal -->
+    <dialog
+      id="image_lightbox"
+      class="modal bg-neutral-focus/40 backdrop-blur-md cursor-zoom-out"
+    >
+      <div
+        class="modal-box p-0 max-w-4xl bg-transparent border-0 shadow-none relative flex items-center justify-center"
+      >
+        <img
+          id="lightbox_img"
+          src=""
+          alt="Enlarged view"
+          class="w-full h-auto max-h-[85vh] object-contain rounded-xl select-none"
+        />
+        <form method="dialog" class="absolute right-4 top-4">
+          <button
+            class="btn btn-sm btn-circle btn-ghost text-white bg-black/40 hover:bg-black/60 border-0"
+            >✕</button
+          >
+        </form>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button class="cursor-zoom-out">close</button>
+      </form>
+    </dialog>
+
+    <!-- Footer -->
+    <footer class="bg-base-200 border-t border-base-300 py-10 mt-auto">
+      <div
+        class="max-w-5xl mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6"
+      >
+        <div>
+          <p
+            class="font-semibold text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+          >
+            Sultan Akmal Maulana
+          </p>
+          <p class="text-sm text-base-content/60 mt-1">
+            &copy; {new Date().getFullYear()} — Made with Astro JS & DaisyUI. Rewrite
+            of <a
+              href="https://github.com/kimsultech/kimsultech-magic-portfolio"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="underline hover:text-primary transition-colors"
+              >Magic Portfolio</a
+            >.
+          </p>
+        </div>
+
+        <div class="flex gap-4">
+          {
+            socialLinks.map((link) => (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-ghost btn-circle hover:text-primary transition-colors"
+                aria-label={link.name}
+              >
+                <i class={`${link.icon} text-xl`} />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </footer>
+
+    <!-- Theme Toggle Logic Script -->
+    <script is:inline>
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const lightIcon = document.getElementById("theme-toggle-light-icon");
+      const darkIcon = document.getElementById("theme-toggle-dark-icon");
+
+      const updateIcons = (theme) => {
+        if (theme === "dark") {
+          lightIcon.classList.remove("hidden");
+          darkIcon.classList.add("hidden");
+        } else {
+          lightIcon.classList.add("hidden");
+          darkIcon.classList.remove("hidden");
+        }
+      };
+
+      let currentTheme = document.documentElement.getAttribute("data-theme");
+      updateIcons(currentTheme);
+
+      themeToggleBtn.addEventListener("click", () => {
+        const nextTheme = currentTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", nextTheme);
+        localStorage.setItem("theme", nextTheme);
+        currentTheme = nextTheme;
+        updateIcons(currentTheme);
+      });
+    </script>
+
+    <!-- Image Lightbox Script -->
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", () => {
+        const lightbox = document.getElementById("image_lightbox");
+        const lightboxImg = document.getElementById("lightbox_img");
+
+        if (!lightbox || !lightboxImg) return;
+
+        const setupLightbox = () => {
+          // Select images in articles, grids, cards, and carousels
+          const images = document.querySelectorAll(
+            "article img, [data-project-card] figure img, .carousel-item img, .card img",
+          );
+          images.forEach((img) => {
+            if (img.dataset.lightboxSet) return;
+            img.dataset.lightboxSet = "true";
+            img.classList.add(
+              "cursor-zoom-in",
+              "transition-transform",
+              "hover:opacity-90",
+            );
+
+            img.addEventListener("click", (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              lightboxImg.src = img.src;
+              lightboxImg.alt = img.alt || "Enlarged view";
+              lightbox.showModal();
+            });
+          });
+        };
+
+        setupLightbox();
+
+        // Observe tab switching or dynamically loaded content
+        const observer = new MutationObserver(() => {
+          setupLightbox();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+    </script>
+  </body>
+</html>

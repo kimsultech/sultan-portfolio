@@ -1,0 +1,71 @@
+---
+title: "FanBias | Ensiklopedia K-Pop Idol & Drama"
+publishedAt: "2026-05-12"
+summary: "Ensiklopedia utama untuk idol, grup, dan drama K-Pop. Simpan daftar biasmu dan terhubung dengan penggemar lainnya."
+images:
+  - "/images/projects/fanbias/homepage.png"
+team:
+  - name: "Sultan A.M"
+    role: "Full Stack Developer"
+    avatar: "/images/avatar.jpeg"
+    linkedIn: "https://www.linkedin.com"
+---
+
+## Gambaran Umum
+
+FanBias adalah platform all-in-one yang dirancang untuk penggemar K-Pop untuk menjelajahi ensiklopedia lengkap idol, grup, dan drama. Platform ini memungkinkan penggemar untuk melacak artis favorit mereka, berpartisipasi dalam polling komunitas, dan terhubung dengan sesama penggemar di hub khusus. Proyek ini berawal dari ide sederhana seorang penggemar multi-fandom pada tahun 2020 untuk membuat aplikasi penyimpan daftar "bias". Pada saat itu, proyek ini masih dalam tahap prototipe karena fokus utama saya adalah menyelesaikan studi perkuliahan, dan keterbatasan teknis membuat pengembangannya cukup menantang. Namun sekarang, dengan bantuan AI, mimpi yang sempat tertunda tersebut akhirnya dapat terwujud menjadi platform yang fungsional.
+
+![FanBias Prototipe 2020](/images/projects/fanbias/prototype.jpg)
+
+**Status: Pengembangan (Versi Alpha)**
+
+Situs live: [https://fanbias.site](https://fanbias.site)
+
+## Fitur Utama
+
+- **Wiki Artis**: Profil detail, fakta, dan riwayat karir artis serta grup K-Pop.
+- **Polling Penggemar**: Sistem voting dan polling interaktif bagi komunitas untuk berbagi pendapat.
+- **Obrolan Komunitas**: Ruang obrolan khusus bagi penggemar untuk terhubung dan berdiskusi.
+- **Pelacakan Bias**: Sistem personalisasi bagi penggemar untuk menyimpan dan mengelola daftar "bias" mereka.
+- **Sistem Cinta**: Sistem mata uang virtual ("Cinta") untuk keterlibatan komunitas.
+
+## Tumpukan Teknologi
+
+Proyek ini dibangun dengan tumpukan teknologi modern dan berperforma tinggi:
+
+- **Frontend**: **Astro 6.x** dan **Tailwind CSS v4** untuk antarmuka pengguna yang cepat dan responsif.
+- **Backend API**: **Go (Golang)** menggunakan **Gofiber (Fiber v2)** untuk penanganan permintaan berperforma tinggi.
+- **Database**: **PostgreSQL** dengan **GORM** untuk manajemen data yang tangguh.
+- **Waktu Nyata**: **WebSockets** untuk fitur komunitas dan obrolan langsung.
+- **Infrastruktur**: **Pocketbase** untuk penyimpanan aset dan **Redis** untuk caching yang efisien.
+
+## Arsitektur API
+
+Backend dibangun menggunakan Go, menyediakan API konkurensi tinggi yang menangani segalanya mulai dari data wiki hingga interaksi waktu nyata. Ini mengikuti pola arsitektur bersih, memastikan skalabilitas dan pemeliharaan saat platform berkembang. Pemilihan Go didasarkan pada efisiensi dan performanya yang ringan, karena proyek ini dirancang untuk berjalan pada Server Mini dengan spesifikasi terbatas (RAM 2GB, arsitektur arm64, dan storage SSD USB 2.0).
+
+## Pratinjau
+
+<Carousel
+  aspectRatio="16 / 9"
+  indicator="thumbnail"
+  images={[
+    {
+      alt: 'Halaman Beranda FanBias',
+      src: '/images/projects/fanbias/homepage.png'
+    },
+    {
+      alt: 'Halaman Wiki FanBias',
+      src: '/images/projects/fanbias/wiki-page.png'
+    },
+    {
+      alt: 'Logo FanBias',
+      src: '/images/projects/fanbias/logo.png'
+    }
+  ]}
+/>
+
+---
+
+## Tantangan dan Pembelajaran
+
+Mengembangkan FanBias melibatkan pengerjaan dengan teknologi mutakhir seperti Tailwind CSS v4. Membangun ensiklopedia dua bahasa dengan fitur komunitas waktu nyata memberikan pengalaman signifikan dalam menangani manajemen status yang kompleks dan pembaruan data frekuensi tinggi. Dalam proses pengembangannya, saya juga memanfaatkan bantuan AI untuk mempercepat implementasi logika yang kompleks dan optimasi kode.

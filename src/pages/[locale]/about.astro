@@ -1,0 +1,286 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { type Locale, useTranslations } from "../../utils/i18n";
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: "en" } },
+    { params: { locale: "id" } },
+  ];
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = useTranslations(locale);
+
+// Prepare achievements
+const freelanceAchievements = t("about.work.experiences.Freelance.achievements")
+  .split(";")
+  .map(item => item.trim())
+  .filter(Boolean);
+
+const technicalSkills = [
+  {
+    title: "Web Development",
+    description: t("about.technical.skills.Web.description"),
+    images: [
+      { src: "/images/projects/capil-pangkep/icore1.png", alt: "ICore Web 1" },
+      { src: "/images/projects/capil-pangkep/icore2.png", alt: "ICore Web 2" },
+      { src: "/images/projects/dasukecimteng/dasuke1.png", alt: "Dasuke Web" }
+    ]
+  },
+  {
+    title: "Mobile Development",
+    description: t("about.technical.skills.Mobile.description"),
+    images: [
+      { src: "/images/projects/capil-pangkep/android/icore3.png", alt: "ICore Android" }
+    ]
+  }
+];
+
+const techTools = [
+  { name: "REST API", icon: "https://user-images.githubusercontent.com/25181517/192107858-fe19f043-c502-4009-8c47-476fc89718ad.png" },
+  { name: "GitHub", icon: "https://user-images.githubusercontent.com/25181517/192108374-8da61ba1-99ec-41d7-80b8-fb2f7c0a4948.png" },
+  { name: "Android Studio", icon: "https://user-images.githubusercontent.com/25181517/192108895-20dc3343-43e3-4a54-a90e-13a4abbc57b9.png" },
+  { name: "VS Code", icon: "https://user-images.githubusercontent.com/25181517/192108891-d86b6220-e232-423a-bf5f-90903e6887c3.png" },
+  { name: "Bootstrap", icon: "https://user-images.githubusercontent.com/25181517/183898054-b3d693d4-dafb-4808-a509-bab54cf5de34.png" },
+  { name: "Tailwind CSS", icon: "https://user-images.githubusercontent.com/25181517/202896760-337261ed-ee92-4979-84c4-d4b829c7355d.png" },
+  { name: "TypeScript", icon: "https://user-images.githubusercontent.com/25181517/183890598-19a0ac2d-e88a-4005-a8df-1ee36782fde1.png" },
+  { name: "npm", icon: "https://user-images.githubusercontent.com/25181517/121401671-49102800-c959-11eb-9f6f-74d49a5e1774.png" },
+  { name: "Node.js", icon: "https://user-images.githubusercontent.com/25181517/183568594-85e280a7-0d7e-4d1a-9028-c8c2209e073c.png" },
+  { name: "ExpressJS", icon: "https://user-images.githubusercontent.com/25181517/183859966-a3462d8d-1bc7-4880-b353-e2cbed900ed6.png" },
+  { name: "Java", icon: "https://user-images.githubusercontent.com/25181517/117201156-9a724800-adec-11eb-9a9d-3cd0f67da4bc.png" },
+  { name: "PHP", icon: "https://user-images.githubusercontent.com/25181517/183570228-6a040b9f-3ddf-47a2-a201-743121dac664.png" },
+  { name: "Laravel", icon: "https://github.com/marwin1991/profile-technology-icons/assets/25181517/afcf1c98-544e-41fb-bf44-edba5e62809a" },
+  { name: "MySQL", icon: "https://user-images.githubusercontent.com/25181517/183896128-ec99105a-ec1a-4d85-b08b-1aa1620b2046.png" },
+  { name: "Linux", icon: "https://github.com/marwin1991/profile-technology-icons/assets/76662862/2481dc48-be6b-4ebb-9e8c-3b957efe69fa" },
+  { name: "Ubuntu", icon: "https://user-images.githubusercontent.com/25181517/186884153-99edc188-e4aa-4c84-91b0-e2df260ebc33.png" },
+  { name: "Astro JS", icon: "https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/astro.png" },
+  { name: "Redis", icon: "https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/redis.png" },
+  { name: "Go", icon: "https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/go.png" }
+];
+
+const socialLinks = [
+  { name: "GitHub", url: "https://github.com/kimsultech", icon: "fa-brands fa-github" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/kimsultech", icon: "fa-brands fa-linkedin" },
+  { name: "Email", url: "mailto:ssxakmal@gmail.com", icon: "fa-solid fa-envelope" }
+];
+---
+
+<Layout locale={locale} title={t("about.title")} description={t("about.description", { name: "Sultan", role: t("person.role"), location: "Bandung - Indonesia" })}>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-5xl mx-auto">
+    
+    <!-- Profile Sidebar (Left) -->
+    <div class="lg:col-span-4 bg-base-200 border border-base-300 rounded-3xl p-8 space-y-6 text-center lg:text-left shadow-sm">
+      <div class="avatar flex justify-center lg:justify-start">
+        <div class="w-36 rounded-2xl ring-4 ring-primary/20 ring-offset-base-100 ring-offset-2 overflow-hidden bg-base-300">
+          <img src="/images/avatar.jpeg" alt="Sultan Akmal Maulana" />
+        </div>
+      </div>
+      
+      <div class="space-y-1">
+        <h1 class="text-2xl font-black text-base-content">Sultan A.M</h1>
+        <p class="text-sm font-semibold text-primary">{t("person.role")}</p>
+      </div>
+
+      <p class="text-xs text-base-content/70 leading-relaxed italic border-l-2 border-primary/30 pl-3 text-left">
+        "{t("about.intro.description").split(".")[0]}."
+      </p>
+
+      <div class="divider opacity-50 my-2"></div>
+
+      <div class="space-y-4 text-xs text-left">
+        <div class="flex items-center gap-3 text-base-content/85">
+          <i class="fa-solid fa-location-dot text-primary w-5 text-center text-sm"></i>
+          <span>Bandung, Indonesia 🇮🇩</span>
+        </div>
+        <div class="flex items-center gap-3 text-base-content/85">
+          <i class="fa-solid fa-clock text-primary w-5 text-center text-sm"></i>
+          <span>WIB (UTC+7)</span>
+        </div>
+        <div class="flex items-center gap-3 text-base-content/85">
+          <i class="fa-solid fa-language text-primary w-5 text-center text-sm"></i>
+          <span class="flex gap-1 flex-wrap">
+            <span class="badge badge-sm badge-outline">Bahasa</span>
+            <span class="badge badge-sm badge-outline">English</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="divider opacity-50 my-2"></div>
+
+      <!-- Socials list -->
+      <div class="flex flex-col gap-2">
+        {socialLinks.map(link => (
+          <a href={link.url} target="_blank" rel="noopener noreferrer" class="btn btn-outline border-base-300 rounded-xl justify-start gap-3 h-10 min-h-0 text-xs font-semibold hover:bg-primary hover:text-primary-content transition-colors">
+            <i class={`${link.icon} text-base w-4`}></i>
+            <span>{link.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Interactive Navigation Content (Right) -->
+    <div class="lg:col-span-8 space-y-6">
+      
+      <!-- DaisyUI Tabs -->
+      <div class="tabs tabs-lifted w-full font-bold">
+        <button class="tab tab-active h-12 text-sm md:text-base border-primary/20" data-target="tab-experience">
+          {t("about.work.title")}
+        </button>
+        <button class="tab h-12 text-sm md:text-base border-primary/20" data-target="tab-education">
+          {t("about.studies.title")}
+        </button>
+        <button class="tab h-12 text-sm md:text-base border-primary/20" data-target="tab-skills">
+          Skills & Tools
+        </button>
+      </div>
+
+      <!-- Tab Content Area -->
+      <div class="bg-base-200 border border-base-300 rounded-3xl p-6 md:p-8 shadow-sm">
+        
+        <!-- Tab 1: Experience -->
+        <div id="tab-experience" class="tab-pane space-y-6">
+          <div class="border-b border-base-300 pb-4">
+            <h2 class="text-xl font-extrabold">{t("about.work.title")}</h2>
+            <p class="text-xs text-base-content/60 mt-1">My professional timeline and key achievements.</p>
+          </div>
+          
+          <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+            <li>
+              <div class="timeline-middle">
+                <div class="w-8 h-8 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center">
+                  <i class="fa-solid fa-briefcase text-primary text-xs"></i>
+                </div>
+              </div>
+              <div class="timeline-start md:text-end mb-6 md:mt-2">
+                <time class="font-mono italic text-xs text-base-content/60 bg-base-300 px-2 py-0.5 rounded">
+                  {t("about.work.experiences.Freelance.timeframe")}
+                </time>
+                <div class="text-lg font-black text-primary mt-1.5">Freelance</div>
+                <span class="badge badge-sm badge-outline mt-1">
+                  {t("about.work.experiences.Freelance.role")}
+                </span>
+              </div>
+              <div class="timeline-end mb-6 md:mt-2 bg-base-100 border border-base-300/60 rounded-2xl p-5 shadow-sm max-w-lg">
+                <ul class="list-disc pl-5 space-y-2 text-sm text-base-content/85">
+                  {freelanceAchievements.map(achievement => (
+                    <li>{achievement}</li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Tab 2: Education -->
+        <div id="tab-education" class="tab-pane hidden space-y-6">
+          <div class="border-b border-base-300 pb-4">
+            <h2 class="text-xl font-extrabold">{t("about.studies.title")}</h2>
+            <p class="text-xs text-base-content/60 mt-1">Educational background and academic records.</p>
+          </div>
+
+          <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+            <li>
+              <div class="timeline-middle">
+                <div class="w-8 h-8 rounded-full bg-secondary/10 border-2 border-secondary flex items-center justify-center">
+                  <i class="fa-solid fa-graduation-cap text-secondary text-xs"></i>
+                </div>
+              </div>
+              <div class="timeline-start md:text-end mb-6 md:mt-2">
+                <time class="font-mono italic text-xs text-base-content/60 bg-base-300 px-2 py-0.5 rounded">
+                  2020 - 2024
+                </time>
+                <div class="text-lg font-black text-secondary mt-1.5">Politeknik TEDC Bandung</div>
+              </div>
+              <div class="timeline-end mb-6 md:mt-2 bg-base-100 border border-base-300/60 rounded-2xl p-5 shadow-sm max-w-lg">
+                <h4 class="font-bold text-base-content">
+                  {t("about.studies.institutions.Politeknik TEDC Bandung.description")}
+                </h4>
+                <p class="text-xs text-base-content/60 mt-1">Graduated December 2024</p>
+                <div class="mt-2 text-xs font-bold text-primary">IPK / GPA: 3.04</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Tab 3: Skills -->
+        <div id="tab-skills" class="tab-pane hidden space-y-8">
+          <div class="border-b border-base-300 pb-4">
+            <h2 class="text-xl font-extrabold">{t("about.technical.title")}</h2>
+            <p class="text-xs text-base-content/60 mt-1">Tech stack, languages, and specialized frameworks.</p>
+          </div>
+
+          <!-- Web / Mobile Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {technicalSkills.map(skill => (
+              <div class="bg-base-100 border border-base-300/60 rounded-2xl p-5 space-y-4">
+                <h4 class="text-base font-bold text-primary flex items-center gap-2 border-b border-base-300 pb-2">
+                  <i class={skill.title.includes("Web") ? "fa-solid fa-earth-asia" : "fa-solid fa-mobile-screen-button"}></i>
+                  {skill.title}
+                </h4>
+                <p class="text-xs text-base-content/75 leading-relaxed min-h-[40px]">
+                  {skill.description}
+                </p>
+                
+                {skill.images && skill.images.length > 0 && (
+                  <div class="flex gap-1.5 flex-wrap pt-2">
+                    {skill.images.map(img => (
+                      <div class="w-14 h-9 rounded-lg overflow-hidden border border-base-300 relative group cursor-zoom-in bg-base-300">
+                        <img src={img.src} alt={img.alt} class="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <!-- Toolbox Grid -->
+          <div class="space-y-4 pt-4 border-t border-base-300/60">
+            <h4 class="font-bold text-sm text-base-content/75 uppercase tracking-wider flex items-center gap-2">
+              <i class="fa-solid fa-toolbox text-primary"></i>
+              Toolbox Grid
+            </h4>
+            
+            <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-4 justify-items-center bg-base-100 p-6 border border-base-300/50 rounded-2xl">
+              {techTools.map(tool => (
+                <div class="flex flex-col items-center gap-1.5 group cursor-pointer" title={tool.name}>
+                  <div class="w-12 h-12 bg-base-200 rounded-xl border border-base-300/80 flex items-center justify-center p-2.5 group-hover:border-primary group-hover:shadow-md transition-all duration-300">
+                    <img src={tool.icon} alt={tool.name} class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <span class="text-[9px] font-bold text-base-content/60 group-hover:text-primary transition-colors text-center truncate max-w-[50px]">
+                    {tool.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript to toggle tabs -->
+  <script is:inline>
+    const tabs = document.querySelectorAll('[data-target]');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Deactivate all tab headers
+        tabs.forEach(t => t.classList.remove('tab-active'));
+        
+        // Hide all panes
+        tabPanes.forEach(pane => pane.classList.add('hidden'));
+        
+        // Activate selected tab header
+        tab.classList.add('tab-active');
+        
+        // Show target pane
+        const targetId = tab.getAttribute('data-target');
+        document.getElementById(targetId).classList.remove('hidden');
+      });
+    });
+  </script>
+</Layout>

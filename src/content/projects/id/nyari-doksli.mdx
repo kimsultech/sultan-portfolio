@@ -1,0 +1,68 @@
+---
+title: "NyariDoksli | Temukan Dokumen Asli"
+publishedAt: "2026-02-22"
+summary: "Platform pencarian dokumen asli (Doksli) dari gambar yang tertimpa atau diedit."
+images:
+  - "/images/projects/nyari-doksli/homepage.png"
+team:
+  - name: "Sultan A.M"
+    role: "Full Stack Developer"
+    avatar: "/images/avatar.jpeg"
+    linkedIn: "https://www.linkedin.com"
+---
+
+## Gambaran Umum
+
+NyariDoksli adalah platform inovatif yang memungkinkan pengguna untuk menemukan sumber asli dari sebuah gambar atau dokumen yang mungkin telah dimodifikasi atau tertimpa teks/elemen lain. Platform ini berfungsi sebagai repositori berbasis komunitas untuk "Doksli" (Dokumen Asli).
+
+Situs live: [https://nyari-doksli.online](https://nyari-doksli.online) (Aktif hingga 20/02/2027)<br />
+GitHub: [https://github.com/kimsultech/nyari-doksli](https://github.com/kimsultech/nyari-doksli)
+
+## Fitur Utama
+
+- **Scan Gambar**: Memindai gambar yang dimodifikasi untuk menemukan sumber aslinya di dalam database.
+- **Unggah Doksli**: Kontribusi berbasis komunitas untuk templat dokumen asli dan gambar.
+- **Sistem Voting**: Sistem verifikasi di mana komunitas dapat memberikan suara (vote) pada keaslian dokumen yang diunggah.
+- **Dashboard Pengguna**: Mengelola unggahan, pengaturan profil, dan melacak kontribusi komunitas.
+
+## Tumpukan Teknologi
+
+Proyek ini memanfaatkan tumpukan teknologi modern dan tangguh untuk pemrosesan gambar dan manajemen data berperforma tinggi:
+
+- **Frontend**: **Astro 5** dengan **React 19** dan **Tailwind CSS 4** untuk antarmuka pengguna yang mutakhir dan responsif.
+- **ORM & Database**: **Prisma** dengan **PostgreSQL** untuk penanganan data yang efisien dan andal.
+- **Rate Limiting & Caching**: **Redis** untuk pembatasan laju permintaan (rate limiting) dan manajemen sesi yang cepat.
+- **Pemrosesan Gambar**: **Sharp** untuk pembuatan thumbnail dan penanganan transformasi gambar.
+- **Machine Learning**: **TensorFlow JS** di sisi klien untuk pemindaian gambar dan ekstraksi data vektor tanpa membebani server.
+- **Autentikasi**: **Better Auth** untuk manajemen pengguna dan penanganan sesi yang aman.
+
+## Arsitektur Sistem
+
+NyariDoksli dirancang dengan pendekatan monolitik-modern menggunakan Astro sebagai intinya. Proyek ini memanfaatkan pemrosesan di sisi klien menggunakan **TensorFlow JS** untuk analisis gambar yang kompleks, memastikan server tetap ringan. Sistem terintegrasi mulus dengan Prisma untuk interaksi database dan menggunakan Redis untuk pembatasan laju permintaan (rate limiting) guna menjaga keamanan server.
+
+## Pratinjau
+
+<Carousel
+  aspectRatio="16 / 9"
+  indicator="thumbnail"
+  images={[
+    {
+      alt: 'Halaman Beranda NyariDoksli',
+      src: '/images/projects/nyari-doksli/homepage.png'
+    },
+    {
+      alt: 'Fitur Pemindaian',
+      src: '/images/projects/nyari-doksli/scan.png'
+    },
+    {
+      alt: 'Hasil Pencarian',
+      src: '/images/projects/nyari-doksli/result.png'
+    }
+  ]}
+/>
+
+---
+
+## Tantangan dan Pembelajaran
+
+Membangun NyariDoksli memerlukan pemahaman mendalam tentang metadata gambar dan algoritma pencarian yang efisien. Mengimplementasikan sistem verifikasi berbasis komunitas melalui voting membantu dalam mempelajari manajemen status yang kompleks dan konsistensi database. Dalam proses pengembangannya, saya juga memanfaatkan bantuan AI untuk mengoptimalkan logika pemrosesan gambar dan menyempurnakan pengalaman pengguna.

@@ -1,0 +1,77 @@
+{
+    "person": {
+        "role": "FullStack Developer"
+    },
+    "newsletter": {
+        "title": "Langganan Buletin {firstName}",
+        "description": "Saya sesekali menulis tentang desain, teknologi, dan berbagi pemikiran tentang persimpangan kreativitas dan rekayasa",
+        "button": "Daftar"
+    },
+    "home": {
+        "label": "Beranda",
+        "title": "Portofolio Saya",
+        "description": "Situs web portofolio yang menampilkan karya saya sebagai {role}",
+        "headline": "FullStack Developer",
+        "subline": "Saya Sultan, seorang Freelancer dan baru Lulus Kuliah Jurusan Teknik Informatika Bulan Desember 2024 ini, saya memulai Freelance pada tahun 2021 dalam pengembangan Aplikasi Mobile Android dan Web."
+    },
+    "about": {
+        "label": "Tentang",
+        "title": "Tentang Saya",
+        "description": "Kenali {name}, {role} dari {location}",
+        "intro": {
+            "title": "Pengantar",
+            "description": "Sultan adalah seorang Fullstack Developer yang berbasis di Bandung, dengan Pengalaman Mengembangkan Aplikasi Mobile (Android) dan Web (ExpressJS, Laravel)."
+        },
+        "work": {
+            "title": "Pengalaman Kerja",
+            "experiences": {
+                "Freelance": {
+                    "timeframe": "2021 - Sekarang",
+                    "role": "FullStack Developer",
+                    "achievements": "Mengembangkan Aplikasi ICore Pangkep Berbasis Android (Java) berserta API dan Admin Panel menggunakan ExpressJS..."
+                }
+            }
+        },
+        "studies": {
+            "title": "Pendidikan",
+            "institutions": {
+                "Politeknik TEDC Bandung": {
+                    "description": "Teknik Informatika.",
+                    "timeframe": "2020 - 2024"
+                }
+            }
+        },
+        "technical": {
+            "title": "Kemampuan Teknis",
+            "skills": {
+                "Web": {
+                    "description": "Mampu membuat Web mengunakan Framework Laravel dan Node JS, Express JS"
+                },
+                "Mobile": {
+                    "description": "Mampu membuat Aplikasi Mobile Android Native."
+                },
+                "TechStack": {
+                    "description": "-"
+                }
+            }
+        }
+    },
+    "blog": {
+        "label": "Blog",
+        "title": "Menulis tentang teknologi...",
+        "description": "Baca apa yang {name} lakukan baru-baru ini"
+    },
+    "work": {
+        "label": "Karya",
+        "title": "Proyek Saya",
+        "description": "Proyek aplikasi dan pengembangan oleh {name}"
+    },
+    "gallery": {
+        "label": "Galeri",
+        "title": "Galeri Foto Saya",
+        "description": "Koleksi foto oleh {name}"
+    },
+    "projectCard": {
+        "label": "Baca Studi Kasus"
+    }
+}
